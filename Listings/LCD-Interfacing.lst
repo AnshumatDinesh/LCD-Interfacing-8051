@@ -1,0 +1,142 @@
+A51 MACRO ASSEMBLER  LCD_INTERFACING                                                      11/29/2023 19:41:54 PAGE     1
+
+
+MACRO ASSEMBLER A51 V8.2.7.0
+OBJECT MODULE PLACED IN .\Objects\LCD-Interfacing.obj
+ASSEMBLER INVOKED BY: C:\Keil_v5\C51\BIN\A51.EXE LCD-Interfacing.asm SET(SMALL) DEBUG PRINT(.\Listings\LCD-Interfacing.l
+                      st) OBJECT(.\Objects\LCD-Interfacing.obj) EP
+
+LOC  OBJ            LINE     SOURCE
+
+0000                   1     ORG 0000H
+0000 8033              2             SJMP MAIN
+                       3     
+                       4     
+                       5     
+                       6     
+0035                   7     ORG 0035H
+0035                   8             MAIN:
+0035 3100              9                     ACALL DELAY_MILLI
+0037 3113             10                     ACALL LCD_INIT
+0039 7441             11                     MOV A,#'A'
+003B 312F             12                     ACALL LCD_PRINT
+003D 744E             13                     MOV A,#'N'
+003F 312F             14                     ACALL LCD_PRINT
+0041 7453             15                     MOV A,#'S'
+0043 312F             16                     ACALL LCD_PRINT
+0045 7448             17                     MOV A,#'H'
+0047 312F             18                     ACALL LCD_PRINT
+0049 7455             19                     MOV A,#'U'
+004B 312F             20                     ACALL LCD_PRINT
+004D 744D             21                     MOV A,#'M'
+004F 312F             22                     ACALL LCD_PRINT
+0051 7441             23                     MOV A,#'A'
+0053 312F             24                     ACALL LCD_PRINT
+0055 7454             25                     MOV A,#'T'
+0057 312F             26                     ACALL LCD_PRINT
+0059 314D             27                     ACALL LCD_SECOND
+005B 7444             28                     MOV A,#'D'
+005D 312F             29                     ACALL LCD_PRINT
+005F 7449             30                     MOV A,#'I'
+0061 312F             31                     ACALL LCD_PRINT
+0063 744E             32                     MOV A,#'N'
+0065 312F             33                     ACALL LCD_PRINT
+0067 7445             34                     MOV A,#'E'
+0069 312F             35                     ACALL LCD_PRINT
+006B 7453             36                     MOV A,#'S'
+006D 312F             37                     ACALL LCD_PRINT
+006F 7448             38                     MOV A,#'H'
+0071 312F             39                     ACALL LCD_PRINT
+0073 80FE             40                     WAIT_INF:JMP WAIT_INF
+0100                  41     ORG 0100H
+0100                  42             DELAY_MILLI:
+0100 758901           43                     MOV TMOD,#01H 
+0103 758CFC           44                     MOV TH0,#0FCH
+0106 758A18           45                     MOV TL0,#18H 
+0109 D28C             46                     SETB TR0
+010B 308DFD           47                             WAIT_1MS:JNB TF0,WAIT_1MS
+010E C28D             48                     CLR TF0
+0110 C28C             49                     CLR TR0
+0112 22               50                     RET 
+0113                  51             LCD_INIT:
+0113 7438             52                     MOV A,#38H 
+0115 3124             53                     ACALL LCD_COMMAND
+0117 740C             54                     MOV A,#0CH 
+0119 3124             55                     ACALL LCD_COMMAND
+011B 7401             56                     MOV A,#01H 
+011D 3124             57                     ACALL LCD_COMMAND
+A51 MACRO ASSEMBLER  LCD_INTERFACING                                                      11/29/2023 19:41:54 PAGE     2
+
+011F 7480             58                     MOV A,#80H 
+0121 3124             59                     ACALL LCD_COMMAND
+0123 22               60                     RET
+0124                  61             LCD_COMMAND:
+0124 F5A0             62                             MOV P2,A
+0126 C2B0             63                             CLR P3.0
+0128 D2B1             64                             SETB P3.1
+012A 3100             65                             ACALL DELAY_MILLI
+012C C2B1             66                             CLR P3.1
+012E 22               67                             RET
+012F                  68             LCD_PRINT:
+012F F5A0             69                             MOV P2,A
+0131 D2B0             70                             SETB P3.0
+0133 D2B1             71                             SETB P3.1
+0135 3100             72                             ACALL DELAY_MILLI
+0137 C2B1             73                             CLR P3.1
+0139 22               74                             RET
+013A                  75             LCD_PRINTS:
+013A F8               76                             MOV R0,A
+013B E6               77                             LOOP:MOV A,@R0
+013C 312F             78                             ACALL LCD_PRINT
+013E 08               79                             INC R0
+013F B800F9           80                             CJNE R0,#00H,LOOP
+0142 22               81                             RET
+0143                  82             LCD_CLEAR:
+0143 7401             83                     MOV A,#01H
+0145 3124             84                     ACALL LCD_COMMAND
+0147 22               85                     RET
+0148                  86             LCD_FIRST:
+0148 7480             87                     MOV A,#80H
+014A 3124             88                     ACALL LCD_COMMAND
+014C 22               89                     RET
+014D                  90             LCD_SECOND:
+014D 74C0             91                             MOV A,#0C0H
+014F 3124             92                             ACALL LCD_COMMAND
+0151 22               93                             RET
+                      94                     
+                      95             
+                      96     END
+                                     
+A51 MACRO ASSEMBLER  LCD_INTERFACING                                                      11/29/2023 19:41:54 PAGE     3
+
+SYMBOL TABLE LISTING
+------ ----- -------
+
+
+N A M E             T Y P E  V A L U E   ATTRIBUTES
+
+DELAY_MILLI. . . .  C ADDR   0100H   A   
+LCD_CLEAR. . . . .  C ADDR   0143H   A   
+LCD_COMMAND. . . .  C ADDR   0124H   A   
+LCD_FIRST. . . . .  C ADDR   0148H   A   
+LCD_INIT . . . . .  C ADDR   0113H   A   
+LCD_PRINT. . . . .  C ADDR   012FH   A   
+LCD_PRINTS . . . .  C ADDR   013AH   A   
+LCD_SECOND . . . .  C ADDR   014DH   A   
+LOOP . . . . . . .  C ADDR   013BH   A   
+MAIN . . . . . . .  C ADDR   0035H   A   
+P2 . . . . . . . .  D ADDR   00A0H   A   
+P3 . . . . . . . .  D ADDR   00B0H   A   
+TF0. . . . . . . .  B ADDR   0088H.5 A   
+TH0. . . . . . . .  D ADDR   008CH   A   
+TL0. . . . . . . .  D ADDR   008AH   A   
+TMOD . . . . . . .  D ADDR   0089H   A   
+TR0. . . . . . . .  B ADDR   0088H.4 A   
+WAIT_1MS . . . . .  C ADDR   010BH   A   
+WAIT_INF . . . . .  C ADDR   0073H   A   
+
+
+REGISTER BANK(S) USED: 0 
+
+
+ASSEMBLY COMPLETE.  0 WARNING(S), 0 ERROR(S)
